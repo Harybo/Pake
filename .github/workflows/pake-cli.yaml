@@ -62,6 +62,9 @@ on:
         description: "Package formats (comma-separated: deb,appimage,rpm,zst)"
         required: false
         default: "deb"
+      inject:
+        description: "Path to custom JS file for injection"
+        required: false
 
 jobs:
   build:
@@ -190,6 +193,10 @@ jobs:
 
           if ("${{ inputs.hide_title_bar }}" -eq "true") {
             $args += "--hide-title-bar"
+          }
+
+          if ("${{ inputs.inject }}" -ne "") {
+            $args += "--inject", "${{ inputs.inject }}"
           }
 
           Write-Host "Running: node dist/cli.js $($args -join ' ')"
